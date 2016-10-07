@@ -5,4 +5,11 @@ page-feed {
   .list-md .item-block .item-inner {
     border-bottom: 0;
   }
+
+  .item ion-thumbnail {
+    min-height: 6rem;
+    &> img {
+      border-radius: 2px;
+    }
+  }
 }
