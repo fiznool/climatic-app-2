@@ -6,11 +6,13 @@ import { MyApp } from './app.component';
 import { PostsService } from '../posts/posts.service';
 
 import { FeedPage } from '../pages/feed/feed';
+import { PostPage } from '../pages/post/post';
 
 @NgModule({
   declarations: [
     MyApp,
-    FeedPage
+    FeedPage,
+    PostPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -18,7 +20,8 @@ import { FeedPage } from '../pages/feed/feed';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    FeedPage
+    FeedPage,
+    PostPage
   ],
   providers: [
     PostsService
