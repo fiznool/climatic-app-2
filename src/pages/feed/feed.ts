@@ -2,7 +2,14 @@ import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
 
-const POSTS = [{
+interface Post {
+  title: String,
+  description: String,
+  img: String,
+  imgSrc?: String
+};
+
+const POSTS: Post[] = [{
   title: 'It\'s Sunny!',
   description: 'A lovely sunny day, as we look over the hills.',
   img: 'sunny-1'
@@ -33,7 +40,11 @@ const POSTS = [{
   templateUrl: 'feed.html'
 })
 export class FeedPage {
-  private posts = POSTS;
+  private posts = POSTS.map(p => {
+    p.imgSrc = `assets/images/${p.img}.JPG`;
+    return p;
+  });
+
   constructor(public navCtrl: NavController) {
 
   }

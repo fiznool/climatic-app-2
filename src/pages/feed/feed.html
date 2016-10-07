@@ -10,7 +10,7 @@
   <ion-list>
     <ion-item *ngFor="let post of posts">
     <ion-thumbnail item-left>
-      <img src="assets/images/{{ post.img }}.JPG">
+      <img [src]="post.imgSrc">
     </ion-thumbnail>
       <h2>{{ post.title }}</h2>
       <p>{{ post.description }}</p>
