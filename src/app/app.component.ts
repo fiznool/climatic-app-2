@@ -4,6 +4,8 @@ import { StatusBar } from 'ionic-native';
 
 import { FeedPage } from '../pages/feed/feed';
 
+declare const Parse: any;
+
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
@@ -15,6 +17,9 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
+
+      Parse.initialize('climatic');
+      Parse.serverURL = 'https://climatic.herokuapp.com/api';
     });
   }
 }
