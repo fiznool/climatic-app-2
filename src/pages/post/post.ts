@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { NavController, NavParams } from 'ionic-angular';
+import { NavParams } from 'ionic-angular';
 
 import { Post } from '../../posts/posts';
 import { PostsService } from '../../posts/posts.service';
@@ -10,15 +10,14 @@ import { PostsService } from '../../posts/posts.service';
   templateUrl: 'post.html'
 })
 export class PostPage implements OnInit {
-  public post: Post;
+  post: Post;
 
   constructor(
-    private navCtrl: NavController,
     private navParams: NavParams,
     private postsService: PostsService
    ) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     const id = this.navParams.get('id');
     this.postsService.getPostById(id)
       .then(post => this.post = post);

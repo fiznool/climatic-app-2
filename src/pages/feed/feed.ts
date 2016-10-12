@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-import { NavController, LoadingController } from 'ionic-angular';
+import { ModalController, NavController, LoadingController } from 'ionic-angular';
 
 import { Post, PostsResponse } from '../../posts/posts';
 import { PostsService } from '../../posts/posts.service';
 
 import { PostPage } from '../post/post';
+import { AddPostPage } from '../add-post/add-post';
 
 @Component({
   selector: 'page-feed',
@@ -17,6 +18,7 @@ export class FeedPage implements OnInit {
 
   constructor(
     private navCtrl: NavController,
+    private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
     private postsService: PostsService
    ) {}
@@ -68,5 +70,13 @@ export class FeedPage implements OnInit {
   onLoadError(err): void {
     // TODO display error to user
     console.error(err);
+  }
+
+  openAddPostModal(): void {
+    const modal = this.modalCtrl.create(AddPostPage);
+    modal.onDidDismiss(data => {
+      console.log(`Dismissed...`, data);
+    });
+    modal.present();
   }
 }
