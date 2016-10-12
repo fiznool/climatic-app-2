@@ -20,16 +20,19 @@ export class FeedPage implements OnInit {
    ) {}
 
   public ngOnInit(): void {
-    this.postsService.getPosts()
-      .then(posts => this.posts = posts.map(p => {
-        p.imgSrc = `assets/images/${p.img}.JPG`;
-        return p;
-      }));
+    this.postsService.getPosts().then(results => {
+      console.log(results.posts);
+      this.posts = results.posts;
+    });
+  }
+
+  public trackByPost(index: number, post: Post): String {
+    return post.objectId;
   }
 
   public postSelected(post: Post): void {
     this.navCtrl.push(PostPage, {
-      id: post.id
+      id: post.objectId
     });
   }
 

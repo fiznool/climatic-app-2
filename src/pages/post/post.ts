@@ -19,13 +19,8 @@ export class PostPage implements OnInit {
    ) {}
 
   public ngOnInit(): void {
-    const id = Number(this.navParams.get('id'));
+    const id = this.navParams.get('id');
     this.postsService.getPostById(id)
-      .then(post => {
-        if(post) {
-          post.imgSrc = `assets/images/${post.img}.JPG`;
-        }
-        this.post = post;
-      });
+      .then(post => this.post = post);
   }
 }

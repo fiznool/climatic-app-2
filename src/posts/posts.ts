@@ -1,7 +1,13 @@
 export interface Post {
-  id: Number,
+  objectId: String,
   title: String,
   description: String,
-  img: String,
-  imgSrc?: String
+  picture: {
+    url: String
+  }
 };
+
+export interface PostsResponse {
+  hasMore: Boolean,
+  posts: Post[]
+}

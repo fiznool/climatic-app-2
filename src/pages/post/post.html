@@ -1,17 +1,17 @@
 <ion-header>
   <ion-navbar>
-    <ion-title *ngIf="post">
-      {{ post.title }}
+    <ion-title>
+      {{ post?.title }}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content *ngIf="post">
+<ion-content>
   <ion-card>
-    <img [src]="post.imgSrc"/>
+    <img [src]="post?.picture.url"/>
     <ion-card-content>
-      <p class="post-user" *ngIf="post.username"><ion-icon name="user"></ion-icon>{{ post.username }}</p>
-      <p class="post-description">{{ post.description }}</p>
+      <p class="post-user" *ngIf="post?.username"><ion-icon name="person" color="primary"></ion-icon><span color="primary">{{ post.username }}</span></p>
+      <p class="post-description">{{ post?.description }}</p>
     </ion-card-content>
   </ion-card>
 </ion-content>

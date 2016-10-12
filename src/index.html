@@ -33,6 +33,10 @@
 
   <!-- Parse doesn't work with rollup etc right now -->
   <script src="assets/scripts/parse.min.js"></script>
+  <script>
+    Parse.initialize('climatic');
+    Parse.serverURL = 'https://climatic.herokuapp.com/api';
+  </script>
 
   <!-- The polyfills js is generated during the build process -->
   <script src="build/polyfills.js"></script>

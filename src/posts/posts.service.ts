@@ -1,47 +1,72 @@
 import { Injectable } from '@angular/core';
 
-import { Post } from './posts';
+import { Post, PostsResponse } from './posts';
 
-const POSTS: Post[] = [{
-  id: 1,
-  title: 'It\'s Sunny!',
-  description: 'A lovely sunny day, as we look over the hills.',
-  img: 'sunny-1'
-}, {
-  id: 2,
-  title: 'It\'s Raining.',
-  description: 'It\'s really quite murky here.',
-  img: 'gloomy-1'
-}, {
-  id: 3,
-  title: 'It\'s Windy!',
-  description: 'Batten down the hatches!!!',
-  img: 'windy-1'
-}, {
-  id: 4,
-  title: 'It\'s a bit chilly.',
-  description: 'Pack your hat and gloves, it\'s a chilly one today.',
-  img: 'cloudy-1'
-}, {
-  id: 5,
-  title: 'Storms a-coming!',
-  description: 'The outlook is rain, wind, fire and brimstone.',
-  img: 'stormy-1'
-}, {
-  id: 6,
-  title: 'Tranquility.',
-  description: 'Turn on, tune in, zone out.',
-  img: 'tranquil-1'
-}];
+declare const Parse: any;
 
 @Injectable()
 export class PostsService {
-  public getPosts(): Promise<Post[]> {
-    return Promise.resolve(POSTS);
+  private PostProxy = Parse.Object.extend('Post');
+  private page = 0;
+  private pageSize = 10;
+
+  private posts: Post[] = [];
+
+  public getPosts(): Promise<PostsResponse> {
+    this.page = 0;
+    return this.fetchPosts(true);
   }
 
-  public getPostById(id: Number): Promise<Post> {
-    const post = POSTS.find(p => p.id === id);
+  public getNextPosts(): Promise<PostsResponse> {
+    this.page++;
+    return this.fetchPosts();
+  }
+
+  private fetchPosts(overwrite?: Boolean): Promise<PostsResponse> {
+    return new Promise((resolve, reject) => {
+      const postQuery: any = new Parse.Query(this.PostProxy);
+
+      // Sort newest first
+      postQuery.descending('createdAt');
+
+      // Start at the current page
+      postQuery.skip(this.page * this.pageSize);
+
+      // Limit the returned items
+      postQuery.limit(this.pageSize);
+
+      // Send query to Parse Server
+      postQuery.find({
+        success: results => {
+          if(overwrite) {
+            // Overwrite the in-memory posts.
+            this.posts = [];
+          }
+
+          // `results` is array of Parse objects,
+          // convert them to plain JSON for Angular
+          results.forEach(r => {
+            this.posts.push(r.toJSON());
+          });
+
+          // Resolve the promise with the posts
+          resolve({
+            posts: this.posts,
+            hasMore: results.length === this.pageSize
+          });
+        },
+        error: err => {
+          console.log('There was an error fetching data: ', err);
+
+          // Reject the promise with the error
+          reject(err);
+        }
+      });
+    });
+  }
+
+  public getPostById(id: String): Promise<Post> {
+    const post = this.posts.find(p => p.objectId === id);
     return Promise.resolve(post);
   }
 }
