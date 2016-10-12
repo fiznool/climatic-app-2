@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
 
-import { Post } from '../../posts/posts';
+import { Post, PostsResponse } from '../../posts/posts';
 import { PostsService } from '../../posts/posts.service';
 
 import { PostPage } from '../post/post';
@@ -12,7 +12,8 @@ import { PostPage } from '../post/post';
   templateUrl: 'feed.html'
 })
 export class FeedPage implements OnInit {
-  private posts: Post[];
+  private posts: Post[] = [];
+  private hasMorePosts = false;
 
   constructor(
     private navCtrl: NavController,
@@ -20,10 +21,7 @@ export class FeedPage implements OnInit {
    ) {}
 
   public ngOnInit(): void {
-    this.postsService.getPosts().then(results => {
-      console.log(results.posts);
-      this.posts = results.posts;
-    });
+    this.loadFirstPosts();
   }
 
   public trackByPost(index: number, post: Post): String {
@@ -36,5 +34,22 @@ export class FeedPage implements OnInit {
     });
   }
 
+  loadFirstPosts(): void {
+    this.postsService.getPosts()
+      .then(results => this.onLoadSuccess(results));
+  }
 
+  loadNextPosts(infiniteScoller): void {
+    this.postsService
+      .getNextPosts()
+      .then(results => {
+        this.onLoadSuccess(results);
+        infiniteScoller.complete();
+      });
+  }
+
+  private onLoadSuccess(results: PostsResponse): void {
+    this.posts = results.posts;
+    this.hasMorePosts = results.hasMore;
+  }
 }

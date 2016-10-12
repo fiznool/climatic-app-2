@@ -1,13 +1,13 @@
 export interface Post {
-  objectId: String,
-  title: String,
-  description: String,
+  objectId: string,
+  title: string,
+  description: string,
   picture: {
-    url: String
+    url: string
   }
 };
 
 export interface PostsResponse {
-  hasMore: Boolean,
+  hasMore: boolean,
   posts: Post[]
 }
