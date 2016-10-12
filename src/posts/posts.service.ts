@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 
 import { Post, PostsResponse } from './posts';
 
@@ -12,18 +13,18 @@ export class PostsService {
 
   private posts: Post[] = [];
 
-  public getPosts(): Promise<PostsResponse> {
+  public getPosts(): Observable<PostsResponse> {
     this.page = 0;
     return this.fetchPosts(true);
   }
 
-  public getNextPosts(): Promise<PostsResponse> {
+  public getNextPosts(): Observable<PostsResponse> {
     this.page++;
     return this.fetchPosts();
   }
 
-  private fetchPosts(overwrite?: Boolean): Promise<PostsResponse> {
-    return new Promise((resolve, reject) => {
+  private fetchPosts(overwrite?: Boolean): Observable<PostsResponse> {
+    return Observable.create(observer => {
       const postQuery: any = new Parse.Query(this.PostProxy);
 
       // Sort newest first
@@ -50,16 +51,18 @@ export class PostsService {
           });
 
           // Resolve the promise with the posts
-          resolve({
+          observer.next({
             posts: this.posts,
             hasMore: results.length === this.pageSize
           });
+          observer.complete();
         },
         error: err => {
           console.log('There was an error fetching data: ', err);
 
           // Reject the promise with the error
-          reject(err);
+          observer.error(err);
+          observer.complete();
         }
       });
     });
