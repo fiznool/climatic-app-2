@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 
-import { Elastic } from '../vendor/elastic/elastic';
+import { Elastic } from 'angular2-elastic';
 
 import { MyApp } from './app.component';
 
@@ -16,7 +16,7 @@ import { AddPostPage } from '../pages/add-post/add-post';
     MyApp,
     FeedPage,
     PostPage,
-    AddPostPage
+    AddPostPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp),
