@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 
+import { Elastic } from '../vendor/elastic/elastic';
+
 import { MyApp } from './app.component';
 
 import { PostsService } from '../posts/posts.service';
@@ -17,7 +19,8 @@ import { AddPostPage } from '../pages/add-post/add-post';
     AddPostPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    Elastic
   ],
   bootstrap: [IonicApp],
   entryComponents: [

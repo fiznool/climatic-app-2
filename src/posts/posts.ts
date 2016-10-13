@@ -1,8 +1,8 @@
 export interface Post {
-  objectId: string,
-  title: string,
-  description: string,
-  picture: {
+  objectId?: string,
+  title?: string,
+  description?: string,
+  picture?: {
     url: string
   }
 };

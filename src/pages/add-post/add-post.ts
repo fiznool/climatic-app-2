@@ -2,16 +2,13 @@ import { Component } from '@angular/core';
 
 import { NavParams, ViewController } from 'ionic-angular';
 
-interface Post {
-  title?: string,
-  description?: string
-}
+import { Post } from '../../posts/posts';
 
 @Component({
   templateUrl: 'add-post.html'
 })
 export class AddPostPage {
-  private model: Post = {};
+  model: Post = {};
 
   constructor(
     private params: NavParams,
