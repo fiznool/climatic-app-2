@@ -10,8 +10,19 @@
 </ion-header>
 
 <ion-content>
-  <p>I am a modal!</p>
-  <button ion-button icon-left (click)="save()">
-    <ion-icon name="checkmark"></ion-icon>&nbsp;Save
-  </button>
+  <form name="addPostForm" (ngSubmit)="submit()" novalidate>
+    <ion-item>
+      <ion-label floating>Title</ion-label>
+      <ion-input type="text" [(ngModel)]="model.title" name="title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-textarea [(ngModel)]="model.description" name="description"></ion-textarea>
+    </ion-item>
+    <div padding>
+      <button type="submit" block ion-button icon-left>
+        <ion-icon name="checkmark"></ion-icon>&nbsp;Save
+      </button>
+    </div>
+  </form>
 </ion-content>
